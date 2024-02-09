@@ -238,7 +238,7 @@ public class AnnonceService{
 		Query query = entityManager.createNativeQuery(sql, Commission.class);
 		query.setParameter("prix", prix);
 		results = query.getResultList();
-
+	
 		return results.get(0).getCommission();
 	}
 

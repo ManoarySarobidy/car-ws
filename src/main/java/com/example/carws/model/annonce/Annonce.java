@@ -8,35 +8,37 @@ import com.fasterxml.jackson.annotation.*;
 import java.sql.Timestamp;
 import java.util.List;
 
-
 import com.example.carws.utility.IdGenerator;
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table( name = "annonce" )
+@Table(name = "annonce")
 // @JsonIdentityInfo(
-//  generator = ObjectIdGenerators.PropertyGenerator.class, 
-//  property = "id")
-public class Annonce{
+// generator = ObjectIdGenerators.PropertyGenerator.class,
+// property = "id")
+public class Annonce {
 	@Id
-	@Column( name = "id_annonce" )
-	@GenericGenerator( name = "custom-id", type = IdGenerator.class, parameters = {@org.hibernate.annotations.Parameter(name = "prefix" , value = "ANC"), @org.hibernate.annotations.Parameter( name = "sequence", value = "seq_annonce" ), @org.hibernate.annotations.Parameter( name = "max_length", value = "7" ) }  )
-    @GeneratedValue(generator = "custom-id" , strategy = GenerationType.IDENTITY)
+	@Column(name = "id_annonce")
+	@GenericGenerator(name = "custom-id", type = IdGenerator.class, parameters = {
+			@org.hibernate.annotations.Parameter(name = "prefix", value = "ANC"),
+			@org.hibernate.annotations.Parameter(name = "sequence", value = "seq_annonce"),
+			@org.hibernate.annotations.Parameter(name = "max_length", value = "7") })
+	@GeneratedValue(generator = "custom-id", strategy = GenerationType.IDENTITY)
 	String id;
 
-    @Column( name = "date_annonce")
+	@Column(name = "date_annonce")
 	Timestamp date;
 
-    @Column( name = "description")
-    String description;
+	@Column(name = "description")
+	String description;
 
-	@Column( name = "prix" )
+	@Column(name = "prix")
 	double prix;
 
 	@OneToOne
-    @JoinColumn(name = "id_lieu")
+	@JoinColumn(name = "id_lieu")
 	Lieu lieu;
 
 	@ManyToOne
@@ -44,12 +46,12 @@ public class Annonce{
 	// @JsonBackReference("annonces-user")
 	Users user;
 
-	@Column( name = "valeur" )
+	@Column(name = "valeur")
 	Integer valeur;
 
 	@ManyToOne
-    @JoinColumn(name = "id_voiture")
-    // @JsonBackReference("voiture-annonce")
+	@JoinColumn(name = "id_voiture")
+	// @JsonBackReference("voiture-annonce")
 	Voiture voiture;
 
 	@OneToMany(mappedBy = "annonce")
@@ -60,127 +62,135 @@ public class Annonce{
 	ValidateAnnonce validate;
 
 	@OneToMany(mappedBy = "annonce")
-    @JsonIgnore
-    List<AnnonceFavories> favories;
+	@JsonIgnore
+	List<AnnonceFavories> favories;
 
-	@OneToMany(mappedBy="annonce")
+	@OneToMany(mappedBy = "annonce")
 	@JsonManagedReference("annonce")
 	List<AnnoncePhoto> photos;
 
-	// @OneToOne(mappedBy = "annonce")
-	// @JsonIgnore
-	// AnnonceVendus vendu;
+	@OneToMany(mappedBy = "annonce")
+	@JsonIgnore
+	List<AnnonceVendus> vendu;
 
 	// @OneToOne(mappedBy = "annonce")
 	// // @JsonIgnore
 	// Historique historique;
 
 	// public Historique getHistorique(){
-	// 	return this.historique;
+	// return this.historique;
 	// }
 
 	// public void setHistorique(Historique historique){
-	// 	this.historique = historique;
+	// this.historique = historique;
 	// }
-	// 
-	
-	public void setPhotos(List<AnnoncePhoto> pics){
+	//
+
+	public void setPhotos(List<AnnoncePhoto> pics) {
 		this.photos = pics;
 	}
 
-	public List<AnnoncePhoto> getPhotos(){
+	public List<AnnoncePhoto> getPhotos() {
 		return this.photos;
 	}
 
-	public List<AnnonceFavories> getFavories(){
+	public List<AnnonceFavories> getFavories() {
 		return this.favories;
 	}
 
-	public void setFavories(List<AnnonceFavories> fav){
+	public void setFavories(List<AnnonceFavories> fav) {
 		this.favories = fav;
 	}
 
-	public ValidateAnnonce getValidate(){
+	public List<AnnonceVendus> getVendues() {
+		return this.vendu;
+	}
+
+	public void setVendues(List<AnnonceVendus> vend) {
+		this.vendu = vend;
+	}
+
+	public ValidateAnnonce getValidate() {
 		return this.validate;
 	}
 
-	public void setValidate(ValidateAnnonce validate){
+	public void setValidate(ValidateAnnonce validate) {
 		this.validate = validate;
 	}
 
-	public List<DetailsAnnonce> getDetails(){
-        return this.details;
-    }
+	public List<DetailsAnnonce> getDetails() {
+		return this.details;
+	}
 
-    public void setDetails(List<DetailsAnnonce> details){
-        this.details = details;
-    }
+	public void setDetails(List<DetailsAnnonce> details) {
+		this.details = details;
+	}
 
-	public void setId(String id){
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public String getId(){
+	public String getId() {
 		return this.id;
 	}
 
-	public void setDate(Timestamp date){
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 
-	public Timestamp getDate(){
+	public Timestamp getDate() {
 		return this.date;
 	}
 
-	public void setDescription(String description){
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public String getDescription(){
+	public String getDescription() {
 		return this.description;
 	}
 
-	public void setPrix(double prix){
+	public void setPrix(double prix) {
 		this.prix = prix;
 	}
 
-	public double getPrix(){
+	public double getPrix() {
 		return this.prix;
 	}
 
-	public void setLieu(Lieu lieu){
+	public void setLieu(Lieu lieu) {
 		this.lieu = lieu;
 	}
 
-	public Lieu getLieu(){
+	public Lieu getLieu() {
 		return this.lieu;
 	}
 
-	public void setUser(Users user){
+	public void setUser(Users user) {
 		this.user = user;
 	}
 
-	public Users getUser(){
+	public Users getUser() {
 		return this.user;
 	}
 
-	public void setValeur(Integer valeur){
+	public void setValeur(Integer valeur) {
 		this.valeur = valeur;
 	}
 
-	public Integer getValeur(){
+	public Integer getValeur() {
 		return this.valeur;
 	}
 
-	public void setVoiture(Voiture voiture){
+	public void setVoiture(Voiture voiture) {
 		this.voiture = voiture;
 	}
-	
-	public Voiture getVoiture(){
+
+	public Voiture getVoiture() {
 		return this.voiture;
 	}
 
-	public Annonce(){
-		
+	public Annonce() {
+
 	}
 }
