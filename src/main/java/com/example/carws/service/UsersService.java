@@ -29,17 +29,23 @@ public class UsersService {
 
     @Transactional
     public void inscription(Users users) throws Exception {
-        String idUser = this.inscriptionFireBase(users.getMail(), users.getPassword());
-        users.setId(idUser);
+        if(users.getId() == null) {
+            String idUser = this.inscriptionFireBase(users.getMail(), users.getPassword());
+            users.setId(idUser);
+        }
         usersRepository.save(users);
-        this.ajoutRole(idUser, "USER");
+        this.ajoutRole(users.getId(), "USER");
     }
 
     public Users login(String id) throws Exception {
-        Users user = usersRepository.findById(id).orElse(null);
-        if (user == null)
-            throw new Exception("Utilisateur non trouvé.");
-        return user;
+        try {
+            Users user = usersRepository.findById(id).orElse(null);
+            if (user == null)
+                throw new Exception("Utilisateur non trouvé.");
+            return user;
+        } catch(Exception io) {
+            throw new Exception("Utilisateur non enregistré. Veuillez s'inscrire par votre compte Google...");
+        }
     }
 
     public Users login(Users user) throws Exception{

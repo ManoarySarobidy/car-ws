@@ -73,8 +73,8 @@ public class UsersController {
             response.addData("token", token);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
-            System.out.println("Erreur: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.OK)
+            System.out.println("Erreur login: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new Response().addError("exception", e.getMessage()));
         }
     }

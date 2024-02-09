@@ -24,15 +24,15 @@ public class Users implements Serializable {
     String id;
     @Column(name = "nom")
     String nom;
-    @Column
+    @Column(nullable = true)
     String prenom;
-    @Column
+    @Column(nullable = true)
     String contact;
-    @Column(name = "date_naissance")
+    @Column(name = "date_naissance", nullable = true)
     Date dateDeNaissance;
     @Column(name = "email")
     String mail;
-    @Column(name = "mot_de_passe")
+    @Column(name = "mot_de_passe", nullable = true)
     String password;
 
     @OneToMany
@@ -105,20 +105,22 @@ public class Users implements Serializable {
     }
 
     public void setDateDeNaissance(Date date_de_naissance) throws Exception {
-        java.util.Date utilDate = new java.util.Date(date_de_naissance.getTime());
-
-        Calendar calendarNaissance = Calendar.getInstance();
-        calendarNaissance.setTime(utilDate);
-
-        int anneeNaissance = calendarNaissance.get(Calendar.YEAR);
-
-        Calendar calendarMaintenant = Calendar.getInstance();
-        int anneeActuelle = calendarMaintenant.get(Calendar.YEAR);
-
-        int age = anneeActuelle - anneeNaissance;
-        if (age < 18)
-            throw new Exception("Désolé, vous devez avoir au moins 18 ans pour ouvrir un compte.");
-        this.dateDeNaissance = date_de_naissance;
+        if(date_de_naissance != null) {
+            java.util.Date utilDate = new java.util.Date(date_de_naissance.getTime());
+    
+            Calendar calendarNaissance = Calendar.getInstance();
+            calendarNaissance.setTime(utilDate);
+    
+            int anneeNaissance = calendarNaissance.get(Calendar.YEAR);
+    
+            Calendar calendarMaintenant = Calendar.getInstance();
+            int anneeActuelle = calendarMaintenant.get(Calendar.YEAR);
+    
+            int age = anneeActuelle - anneeNaissance;
+            if (age < 18)
+                throw new Exception("Désolé, vous devez avoir au moins 18 ans pour ouvrir un compte.");
+            this.dateDeNaissance = date_de_naissance;
+        }
     }
 
     public void setDateDeNaissance(String date_de_naissance) throws Exception {

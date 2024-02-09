@@ -4,77 +4,91 @@ import com.example.carws.model.users.Users;
 import java.sql.Date;
 
 public class InscriptionRequest {
-          String nom;
-          String prenom;
-          String contact;
-          Date dateDeNaissance;
-          String mail;
-          String password;
-          
-          public Users toUser() throws Exception{
-                    Users user = new Users();
-                    user.setContact(this.getContact());
-                    user.setDateDeNaissance(this.getDateDeNaissance() );
-                    user.setMail(this.getMail());
-                    user.setNom(this.getNom());
-                    user.setPassword(this.getPassword());
-                    user.setPrenom(this.getPrenom());
-                    return user;
-          }
-          
-          public Users toLoginUser() throws Exception{
-                    Users u = new Users();
-                    u.setMail(this.getMail());
-                    u.setPassword(this.getPassword());
-                    return u;
-          }
+    String id;
+    String nom;
+    String prenom;
+    String contact;
+    Date dateDeNaissance;
+    String mail;
+    String password;
+        
+    public Users toUser() throws Exception{
+        Users user = new Users();
+        user.setNom(this.getNom());
+        user.setMail(this.getMail());
+        if(this.getDateDeNaissance() != null) {
+            user.setContact(this.getContact());
+            user.setDateDeNaissance(this.getDateDeNaissance() );
+            user.setPassword(this.getPassword());
+            user.setPrenom(this.getPrenom());
+        } else {
+            user.setId(id);
+        }
+        return user;
+    }
+        
+    public Users toLoginUser() throws Exception{
+            Users u = new Users();
+            u.setMail(this.getMail());
+            u.setPassword(this.getPassword());
+            return u;
+    }
 
-          public String getNom() {
-                    return nom;
-          }
+    public String getId() {
+        return id;
+    }
 
-          public void setNom(String nom) {
-                    this.nom = nom;
-          }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-          public String getPrenom() {
-                    return prenom;
-          }
 
-          public void setPrenom(String prenom) {
-                    this.prenom = prenom;
-          }
+    public String getNom() {
+            return nom;
+    }
 
-          public String getContact() {
-                    return contact;
-          }
+    public void setNom(String nom) {
+            this.nom = nom;
+    }
 
-          public void setContact(String contact) {
-                    this.contact = contact;
-          }
+    public String getPrenom() {
+            return prenom;
+    }
 
-          public Date getDateDeNaissance() {
-                    return dateDeNaissance;
-          }
+    public void setPrenom(String prenom) {
+            this.prenom = prenom;
+    }
 
-          public void setDateDeNaissance(Date naissance) {
-                    this.dateDeNaissance = naissance;
-          }
+    public String getContact() {
+            return contact;
+    }
 
-          public String getMail() {
-                    return mail;
-          }
+    public void setContact(String contact) {
+            this.contact = contact;
+    }
 
-          public void setMail(String mail) {
-                    this.mail = mail;
-          }
+    public Date getDateDeNaissance() {
+            return dateDeNaissance;
+    }
 
-          public String getPassword() {
-                    return password;
-          }
+    public void setDateDeNaissance(Date naissance) {
+            this.dateDeNaissance = naissance;
+    }
 
-          public void setPassword(String password) {
-                    this.password = password;
-          }
-          
+    public String getMail() {
+            return mail;
+    }
+
+    public void setMail(String mail) {
+            this.mail = mail;
+    }
+
+    public String getPassword() {
+            return password;
+    }
+
+    public void setPassword(String password) {
+            this.password = password;
+    }
+    
 }
