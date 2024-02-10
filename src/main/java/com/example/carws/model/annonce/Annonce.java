@@ -49,13 +49,14 @@ public class Annonce{
 
 	@ManyToOne
     @JoinColumn(name = "id_voiture")
-    @JsonManagedReference("voiture")
+    // @JsonBackReference("voiture-annonce")
 	Voiture voiture;
 
 	@OneToOne(mappedBy = "annonce")
 	DetailsAnnonce details;
 
 	@OneToOne(mappedBy = "annonce")
+	@JsonBackReference("validate-annonce")
 	ValidateAnnonce validate;
 
 	@OneToMany(mappedBy = "annonce")

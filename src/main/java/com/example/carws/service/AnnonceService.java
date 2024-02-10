@@ -94,7 +94,11 @@ public class AnnonceService{
 		return annonce;
 	}
 
-	public List<Annonce> getAnnoncesByUser(Users user) {
+	public List<Annonce> getAnnoncesByUser() throws Exception {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String idUser = (String)authentication.getPrincipal();
+
+		Users user = userRepository.findById(idUser).orElseThrow(() -> new Exception("User not found in annonceService"));
         return repository.findByUser(user);
     }
 
@@ -351,7 +355,7 @@ public class AnnonceService{
 	
 		for (Map.Entry<String, Object> condition : conditions.entrySet()) {
 			if(condition.getValue() != null){
-				predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(voitureJoin.get(condition.getKey()), condition.getValue()));
+				predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(voitureJoin.get(condition.getKey()).get("id"), condition.getValue()));
 			}
 		}
 	
@@ -373,6 +377,7 @@ public class AnnonceService{
 		}			
 	
 		criteriaQuery.where(predicate);
+		System.out.println(criteriaQuery.toString());
 		TypedQuery<Annonce> typedQuery = entityManager.createQuery(criteriaQuery);
 		List<Annonce> tempResults = typedQuery.getResultList();
 	

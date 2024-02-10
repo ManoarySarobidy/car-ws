@@ -2,6 +2,11 @@ package com.example.carws.request;
 
 import java.util.HashMap;
 
+import com.example.carws.model.primaire.Categorie;
+import com.example.carws.model.primaire.Modele;
+import com.example.carws.model.primaire.Moteur;
+import com.example.carws.model.primaire.Vitesse;
+
 public class SearchedElements {
     String idCategorie;
     String idBoite;
@@ -14,8 +19,8 @@ public class SearchedElements {
     double kilometrageMin;
     double kilometrageMax;
 
-    Integer anneeMin;
-    Integer anneeMax;
+    Integer anneeMin = -1;
+    Integer anneeMax = -1;
 
     String idCouleur;
 
@@ -124,10 +129,21 @@ public class SearchedElements {
     public HashMap<String, Object> allConditions(){
         HashMap<String, Object> conditions = new HashMap<>();
 
-        conditions.put("idCategorie", this.getIdCategorie());
-        conditions.put("idBoite", this.getIdBoite());
-        conditions.put("idMoteur", this.getIdMoteur());
-        conditions.put("idModele", this.getIdModele());
+        conditions.put("categorie", this.getIdCategorie());
+        conditions.put("vitesse", this.getIdBoite());
+        conditions.put("moteur", this.getIdMoteur() );
+
+        // Vitesse vitesse = new Vitesse();
+        // vitesse.setId(this.getIdBoite());
+        // conditions.put("vitesse", vitesse);
+
+        // Moteur moteur = new Moteur();
+        // moteur.setId(this.getIdMoteur());
+        // conditions.put("moteur", moteur);
+
+        // Modele modele = new Modele();
+        // modele.setId(this.getIdModele());
+        // conditions.put("modele", modele);
         // conditions.put("annee", this.getAnnee());
 
         return conditions;

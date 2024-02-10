@@ -57,6 +57,19 @@ public class AnnonceController{
 	}
 
 	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'ROLE_ADMIN', 'ROLE_ANONYMOUS')")
+	@GetMapping("/byUser")
+	public ResponseEntity<?> getAnnoncesUser() throws Exception{
+		try{
+			Annonce[] annonces = annonceService.getAnnoncesByUser().toArray( new Annonce[0] );
+			// Annonce[] annonces = annonceService.getAllAnnonces().toArray( new Annonce[0] );
+			return ResponseEntity.status( HttpStatus.OK ).body( annonces );
+		}catch( Exception exception ){
+			exception.printStackTrace();
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( exception.getMessage() );
+		}
+	}
+
+	@PreAuthorize("hasAnyRole('USER', 'ADMIN', 'ROLE_ADMIN', 'ROLE_ANONYMOUS')")
 	@PostMapping()
 	public ResponseEntity<Response> addAnnonce( @RequestBody AnnonceRequest request ) throws Exception{
 		Response response = new Response();

@@ -33,9 +33,9 @@ public class Token {
         Date issuedAt = new Date(milliTime);
         Date expiryAt = new Date(expiryTime);
 
-        Users _user = new Users(user.getId(), user.getNom(), user.getPrenom(), user.getContact(), user.getDateDeNaissance(), user.getMail(), user.getRoles());
+        Users _user = new Users(user.getId(), user.getNom(), user.getPrenom(), user.getContact(),
+                user.getDateDeNaissance(), user.getMail(), user.getRoles());
         _user.setPassword(user.getPassword());
-
 
         return Jwts.builder()
                 .claim("id", user.getId())
@@ -79,7 +79,8 @@ public class Token {
             user.setContact((String) userClaims.get("contact"));
             user.setDateDeNaissance(new java.sql.Date(Long.valueOf(userClaims.get("dateDeNaissance").toString())));
             user.setMail((String) userClaims.get("mail"));
-            List<LinkedHashMap<String, Object>> rolesClaimList = (List<LinkedHashMap<String, Object>>) userClaims.get("roles");
+            List<LinkedHashMap<String, Object>> rolesClaimList = (List<LinkedHashMap<String, Object>>) userClaims
+                    .get("roles");
             Set<Role> roles = new HashSet<>();
             for (LinkedHashMap<String, Object> roleClaim : rolesClaimList) {
                 Role role = new Role();

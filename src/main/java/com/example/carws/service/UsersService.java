@@ -2,6 +2,8 @@ package com.example.carws.service;
 
 import com.example.carws.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.*;
+
+import com.example.carws.model.users.Discussions;
 import com.example.carws.model.users.Users;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserRecord;
@@ -9,6 +11,9 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -83,6 +88,22 @@ public class UsersService {
         String sql = "INSERT INTO roles_user (id_user, roles_id) VALUES ('" + idUser + "', '" + idRole + "')";
         System.out.println(sql);
         entityManager.createNativeQuery(sql).executeUpdate();
+    }
+
+    public List<Users> getListeUsers(String idEnvoyeur, List<Discussions> discussions) throws Exception {
+        List<Users> users = new ArrayList<Users>();
+        for(int i=0; i<discussions.size(); i++) {
+            System.out.println("Utilisateur1: " + discussions.get(i).getId());
+            Users _user = this.login(discussions.get(i).getId().toString());
+            _user.setPassword("");
+            if(discussions.get(i).getIdEnvoyeur().equals(idEnvoyeur)) {
+                discussions.get(i).setIdEnvoyeur("true");
+            } else {
+                discussions.get(i).setIdEnvoyeur("false");
+            }
+            users.add(_user);
+        }
+        return users;
     }
 
 }

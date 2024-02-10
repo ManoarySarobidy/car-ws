@@ -4,6 +4,7 @@ import java.sql.Date;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
@@ -27,6 +28,7 @@ public class ValidateAnnonce{
 
     @OneToOne
     @JoinColumn(name = "id_annonce")
+    @JsonManagedReference("validate-annonce")
     Annonce annonce;
 
     @OneToOne

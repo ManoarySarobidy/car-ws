@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 import com.example.carws.model.token.Token;
+import com.example.carws.model.users.Discussions;
 import com.example.carws.model.users.Messagerie;
 import com.example.carws.model.users.Users;
 import com.example.carws.request.InscriptionRequest;
@@ -114,13 +115,13 @@ public class UsersController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String idEnvoyeur = (String)authentication.getPrincipal();
             messagerie.setIdEnvoyeur(idEnvoyeur);
-            messagerieService.setStatus(messagerie.getIdReceveur(), idEnvoyeur, 20, 1);
             messagerieService.nouveauMessage(messagerie);
             Response response = new Response();
             response.addData("valide", "Message envoye");
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception exception) {
             System.out.println("Erreur: " + exception.getMessage());
+            exception.printStackTrace();
             return ResponseEntity.status(HttpStatus.OK)
                     .body(new Response().addError("exception", exception.getMessage()));
         }
@@ -198,7 +199,6 @@ public class UsersController {
     public ResponseEntity<?> offlineLogin( @RequestBody InscriptionRequest request ){
         try{
             Users users = request.toLoginUser();
-            // System.out.println( users.getMail() + " ::: " + users.getPassword() );
             users = usersService.login(users);
             String token = new Token().generateJwt(users);
             Response response = new Response();
@@ -206,6 +206,26 @@ public class UsersController {
             return ResponseEntity.ok().body(response);
         }catch(Exception e){
             return ResponseEntity.badRequest().body( e.getMessage() );
+        }
+    }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("listeDiscussions")
+    public ResponseEntity<Response> getListeDiscussions() {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String idEnvoyeur = (String)authentication.getPrincipal();
+            List<Discussions> discussions2 = messagerieService.getListeDiscussions(idEnvoyeur);
+            List<Users> users = usersService.getListeUsers(idEnvoyeur, discussions2);
+            Response response = new Response();
+            response.addData("discussions", discussions2);
+            response.addData("users", users);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        } catch (Exception exception) {
+            System.out.println("Erreur: " + exception.getMessage());
+            exception.printStackTrace();
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body(new Response().addError("exception", exception.getMessage()));
         }
     }
 

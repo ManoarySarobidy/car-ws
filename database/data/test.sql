@@ -85,3 +85,54 @@ db.discussions.updateOne(
 
 db.discussions.find({ idEnvoyeur: "eTLPHjKBKTUyMQ2UCJ0UYSQBx5g1", idReceveur: "aRU7yww5lgZ6eDev3iJ95SKgmAA3", statut: 1 })
 
+db.discussions.aggregate([
+    {
+        $match: {
+            $or: [
+                { idEnvoyeur: "RhHKS2zA2XhLXF9t3rMSitpjr8k1" },
+                { idReceveur: "RhHKS2zA2XhLXF9t3rMSitpjr8k1" }
+            ]
+        }
+    },
+    { $sort: { dateHeureEnvoie: -1 } },
+    {
+        $group: {
+            _id: {
+                $cond: [
+                    { $eq: ["$idEnvoyeur", "RhHKS2zA2XhLXF9t3rMSitpjr8k1"] },
+                    "$idReceveur",
+                    "$idEnvoyeur"
+                ]
+            },
+            idEnvoyeur: { $first: "$idEnvoyeur" },
+            dateHeureEnvoie: { $first: "$dateHeureEnvoie" },
+            dernierMessage: { $first: "$message" },
+            dernierStatus: { $first: "$status" },
+            nombreMessagesNonLu: {
+                $sum: {
+                    $cond: [{ $eq: ["$status", 1] }, 1, 0]
+                }
+            }
+        }
+    },
+    {
+        $project: {
+            _id: 1,
+            idEnvoyeur: 1,
+            dateHeureEnvoie: 1,
+            dernierMessage: 1,
+            dernierStatus: 1,
+            nombreMessagesNonLu: 1,
+        }
+    }
+]);
+
+{ "aggregate": "discussions", 
+	"pipeline": [ 
+		{ "$match": { "$or": [ {"idEnvoyeur": "RhHKS2zA2XhLXF9t3rMSitpjr8k1"}, 
+		{"idReceveur": "RhHKS2zA2XhLXF9t3rMSitpjr8k1"} ] } }, 
+		{ "$sort": { "dateHeureEnvoie": -1 } }, 
+		{ "$group": { _id: { $cond: [ { $eq: ["$idEnvoyeur", "RhHKS2zA2XhLXF9t3rMSitpjr8k1"] }, "$idReceveur", "$idEnvoyeur" ] }, idEnvoyeur: { $first: "$idEnvoyeur" }, dateHeureEnvoie: { $first: "$dateHeureEnvoie" }, dernierMessage: { $first: "$message" }, dernierStatus: { $first: "$status" }, nombreMessagesNonLu: { $sum: { $cond: [ { $eq: ["$status",  1] },  1,  0 ] } } } }
+	]
+}, 
+{ "$project": { "_id":  1, "idEnvoyeur":  1, "dateHeureEnvoie":  1, "dernierMessage":  1, "dernierStatus":  1, "nombreMessagesNonLu":  1 } } 
