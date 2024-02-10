@@ -29,7 +29,7 @@ public class Modele{
 	@ManyToOne
 	@JoinColumn( name = "id_marque", nullable = false )
   @JsonManagedReference("marque-modele")
-  @JsonBackReference("modeles-marque")
+  // @JsonBackReference("modeles-marque")
 	Marque marque;
 
 	@Column( name = "nom" , nullable = false )
