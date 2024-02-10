@@ -45,7 +45,7 @@ public class Moteur{
          @ManyToOne
           @JoinColumn( name = "id_marque" )
 //          @Column
-          @JsonBackReference
+          @JsonManagedReference
          Marque marque;
          
          @ManyToOne
