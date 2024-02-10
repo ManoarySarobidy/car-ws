@@ -20,8 +20,9 @@ public class Marque{
 	@Column( name = "deleted" )
 	boolean deleted = false;
 	
+	@JsonManagedReference("modeles-marques")
+	@JsonBackReference("marque-modeles")
   @OneToMany( mappedBy ="marque", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
-	@JsonManagedReference("modeles")
 	List<Modele> modeles;
 
 	public void setModeles(List<Modele> modeles){

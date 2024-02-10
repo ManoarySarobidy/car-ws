@@ -52,8 +52,8 @@ public class Annonce{
     // @JsonBackReference("voiture-annonce")
 	Voiture voiture;
 
-	@OneToOne(mappedBy = "annonce")
-	DetailsAnnonce details;
+	@OneToMany(mappedBy = "annonce")
+	List<DetailsAnnonce> details;
 
 	@OneToOne(mappedBy = "annonce")
 	@JsonBackReference("validate-annonce")
@@ -108,11 +108,11 @@ public class Annonce{
 		this.validate = validate;
 	}
 
-	public DetailsAnnonce getDetails(){
+	public List<DetailsAnnonce> getDetails(){
         return this.details;
     }
 
-    public void setDetails(DetailsAnnonce details){
+    public void setDetails(List<DetailsAnnonce> details){
         this.details = details;
     }
 
