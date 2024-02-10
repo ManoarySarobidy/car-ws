@@ -57,6 +57,7 @@ public class Modele{
   	inverseJoinColumns = @JoinColumn(name = "id_moteur")
   )
   @JsonIgnoreProperties("moteurs")
+  @JsonManagedReference("marque-moteur")
 	Set<Moteur> moteurs;
 
 	public Set<Categorie> getCategories() {
