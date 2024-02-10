@@ -21,7 +21,7 @@ public class Marque{
 	boolean deleted = false;
 	
 	@JsonManagedReference("modeles-marques")
-	@JsonBackReference("marque-modeles")
+	// @JsonBackReference("marque-modeles")
   @OneToMany( mappedBy ="marque", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
 	List<Modele> modeles;
 
