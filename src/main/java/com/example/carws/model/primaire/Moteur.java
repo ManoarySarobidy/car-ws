@@ -47,6 +47,7 @@ public class Moteur{
 //          @Column
           // @JsonManagedReference("marque")
           // @JsonBackReference("marque-moteur")
+         @JsonIgnore
          Marque marque;
          
          @ManyToOne
