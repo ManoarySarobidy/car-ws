@@ -56,7 +56,7 @@ public class Modele{
   	joinColumns = @JoinColumn(name = "id_modele"),
   	inverseJoinColumns = @JoinColumn(name = "id_moteur")
   )
-  @JsonIgnoreProperties("modele")
+  @JsonIgnoreProperties("moteurs")
 	Set<Moteur> moteurs;
 
 	public Set<Categorie> getCategories() {
