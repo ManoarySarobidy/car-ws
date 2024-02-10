@@ -14,9 +14,9 @@ import com.example.carws.model.primaire.relation.*;
 
 @Entity
 @Table( name = "modele" )
-// @JsonIdentityInfo(
-//  generator = ObjectIdGenerators.PropertyGenerator.class, 
-//  property = "id")
+@JsonIdentityInfo(
+ generator = ObjectIdGenerators.PropertyGenerator.class, 
+ property = "id")
 
 public class Modele{
 	
