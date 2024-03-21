@@ -262,7 +262,6 @@ CREATE TABLE historique(
    id_historique VARCHAR(50) ,
    ancien_valeur INTEGER  NOT NULL,
    id_annonce VARCHAR(50)  NOT NULL,
-   ancien_valeur INTEGER NOT NULL,
    date DATE,
    id_utilisateur VARCHAR(50)  NOT NULL,
    PRIMARY KEY(id_historique),
